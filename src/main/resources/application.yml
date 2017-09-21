@@ -1,0 +1,29 @@
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://10.138.25.23:8066/ejlpro?useUnicode=true&characterEncoding=UTF-8
+    username: ejldb_proxy
+    password: Lrem3Nvfr8Dwsc
+  thymeleaf:
+    cache: false
+    mode: HTML5
+  http:
+    encoding:
+      charset: UTF-8
+#    prefix: /templates/
+#    suffix: .html
+mybatis:
+  type-aliases-package: net.haier.school.toupiao.entity
+  mapper-locations: classpath:/mappers/*Mapper.xml
+#  config-location: classpath*:/mybatis-config.xml
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
+    pageSizeZero: 0
+    returnPageInfo: always
+server:
+  context-path: /
+
