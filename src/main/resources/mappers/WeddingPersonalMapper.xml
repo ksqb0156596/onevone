@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mk.onevone.dao.WeddingPersonalDAO">
+  <resultMap id="BaseResultMap" type="com.mk.onevone.entity.WeddingPersonal">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="group_id" jdbcType="INTEGER" property="groupId" />
+    <result column="sex" jdbcType="TINYINT" property="sex" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="in_short" jdbcType="VARCHAR" property="inShort" />
+    <result column="introduce" jdbcType="VARCHAR" property="introduce" />
+    <result column="video_url" jdbcType="VARCHAR" property="videoUrl" />
+    <result column="photo_url" jdbcType="VARCHAR" property="photoUrl" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, type, group_id, sex, city, in_short, introduce, video_url, photo_url, status, 
+    create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from wedding_personal
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="findList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from wedding_personal
+    <where>
+      <if test="name != null">
+        AND `name` = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="type != null">
+        AND `type` = #{type,jdbcType=TINYINT}
+      </if>
+      <if test="groupId != null">
+        AND group_id = #{groupId,jdbcType=INTEGER}
+      </if>
+      <if test="sex != null">
+        AND sex = #{sex,jdbcType=TINYINT}
+      </if>
+      <if test="city != null">
+        AND city = #{city,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null">
+        AND status = #{status,jdbcType=TINYINT}
+      </if>
+    </where>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    update wedding_personal
+    set status = 9
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mk.onevone.entity.WeddingPersonal">
+    insert into wedding_personal (id, name, type, 
+      group_id, sex, city, in_short, 
+      introduce, video_url, photo_url, 
+      status)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
+      #{groupId,jdbcType=INTEGER}, #{sex,jdbcType=TINYINT}, #{city,jdbcType=VARCHAR}, #{inShort,jdbcType=VARCHAR}, 
+      #{introduce,jdbcType=VARCHAR}, #{videoUrl,jdbcType=VARCHAR}, #{photoUrl,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mk.onevone.entity.WeddingPersonal">
+    insert into wedding_personal
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="groupId != null">
+        group_id,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="inShort != null">
+        in_short,
+      </if>
+      <if test="introduce != null">
+        introduce,
+      </if>
+      <if test="videoUrl != null">
+        video_url,
+      </if>
+      <if test="photoUrl != null">
+        photo_url,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="groupId != null">
+        #{groupId,jdbcType=INTEGER},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=TINYINT},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="inShort != null">
+        #{inShort,jdbcType=VARCHAR},
+      </if>
+      <if test="introduce != null">
+        #{introduce,jdbcType=VARCHAR},
+      </if>
+      <if test="videoUrl != null">
+        #{videoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="photoUrl != null">
+        #{photoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mk.onevone.entity.WeddingPersonal">
+    update wedding_personal
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="groupId != null">
+        group_id = #{groupId,jdbcType=INTEGER},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=TINYINT},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="inShort != null">
+        in_short = #{inShort,jdbcType=VARCHAR},
+      </if>
+      <if test="introduce != null">
+        introduce = #{introduce,jdbcType=VARCHAR},
+      </if>
+      <if test="videoUrl != null">
+        video_url = #{videoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="photoUrl != null">
+        photo_url = #{photoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mk.onevone.entity.WeddingPersonal">
+    update wedding_personal
+    set name = #{name,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT},
+      group_id = #{groupId,jdbcType=INTEGER},
+      sex = #{sex,jdbcType=TINYINT},
+      city = #{city,jdbcType=VARCHAR},
+      in_short = #{inShort,jdbcType=VARCHAR},
+      introduce = #{introduce,jdbcType=VARCHAR},
+      video_url = #{videoUrl,jdbcType=VARCHAR},
+      photo_url = #{photoUrl,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

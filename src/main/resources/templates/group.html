@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>工作室配置</title>
+    <script src='./js/assist/jquery-3.2.1.min.js'></script>
+    <script src='./js/assist/bootstrap-table/bootstrap-table.min.js'></script>
+    <script src='./js/assist/bootstrap-table/bootstrap-table-zh-CN.min.js'></script>
+    <script src='./js/util.js'></script>
+    <script src='./js/assist/layer/layer.js'></script>
+    <link href="./css/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+</head>
+<body>
+    <div id="detail" class="container" style="z-index: 1;display: none">
+        <form id="detailForm" action="" name="detailForm">
+            <div class="row">
+                <div class="col-md-3">姓名</div>
+                <div class="col-md-8"><input type="text" id="name" name="name"/></div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">团队性质</div>
+                <div class="col-md-8">
+                    <span><input type="checkbox" name="type" value="0"/>摄影</span>
+                    <span><input type="checkbox" name="type" value="1"/>化妆</span>
+                    <span><input type="checkbox" name="type" value="2"/>主持</span>
+                    <span><input type="checkbox" name="type" value="3"/>航拍</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">团队图标</div>
+                <div class="col-md-8">
+                    <div>
+                        <input type="file" id="file" name="file" /><button onclick="upload()">上传</button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <img src="" id="preview" style="width: 40%;height: 20%"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">状态</div>
+                <div class="col-md-8">
+                    <span><input type="radio" name="status" value='0' />失效</span>
+                    <span><input type="radio" name="status" value='1' checked="checked"/>有效</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">简介</div>
+                <div class="col-md-8">
+                    <span><textarea type="text" name="introduction"></textarea></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-4"><button class="btn btn-info" onclick="save()">保存</button></div>
+                <div class="col-md-4"><button class="btn btn-warning"  onclick="closeShadow()">关闭</button></div>
+            </div>
+        </form>
+
+    </div>
+    <div>
+        <button class='btn btn-primary'>增加</button>
+        <button class='btn btn-primary'>返回</button>
+        <label class="label label-warning">上线团队</label>
+        <label class="label label-default">下线团队</label>
+        <label class="label label-default">全部团队</label>
+    </div>
+    <div style="">
+        <table id="table"></table>
+
+    </div>
+    <script>
+        findList();
+        function findList(){
+            $.ajax({
+                url: '/group/findList'
+            }).then(function(data){
+                var list = data.result;
+                $('#table').bootstrapTable({
+                    searchText:"",
+                    columns: [{
+                        field: 'id',
+                        title: 'id'
+                    }, {
+                        field: 'name',
+                        title: '团队名称'
+                    }, {
+                        field: 'status',
+                        title: '团队状态',
+                        formatter: function(value, row, index){
+                            if(row.status == 0)return "禁用"
+                            if(row.status == 1)return "启用"
+                        }
+                    }, {
+                        field: 'type',
+                        title: '团队类型',
+                        formatter: function(value, row, index){
+                            var type = row.type;
+                            type = type.replace("0","摄影");
+                            type = type.replace("1","化妆");
+                            type = type.replace("2","主持");
+                            type = type.replace("3","航拍");
+                            return type;
+                        }
+                    }, {
+                        field: 'introduction',
+                        title: '简介'
+                    }, {
+                        title: '操作',
+                        events:{
+                          'click .label-info' : function(e, value, row, index){
+                              console.log(row);
+                          },
+                          'click .label-danger' : function(e, value, row, index){
+                              console.log(row);
+                          }
+                        },
+                        formatter: function(){
+                            return '<label class="label label-info">编辑</label><label class="label label-danger">删除</label>'
+                        }
+                    }],
+                    data: list
+                })
+            })
+            $('#table').bootstrapTable('hideLoading', '');
+        }
+
+        function upload(e){
+            e = e || window.event;
+            e.preventDefault();
+            function success(data){
+                console.log(data);
+                $("#preview").attr("src","http://oxp6k4ur5.bkt.clouddn.com/" + data)
+                $("#preview").attr("img-id",data)
+            }
+            $utils.upload("file",success);
+        }
+        function save(e){
+            e = e || window.event;
+            e.preventDefault();
+            var formData = new FormData(document.forms.detailForm);
+            formData.append("photoUrl",$('#preview').attr('img-id'));
+            var types = formData.getAll('type');
+            var type = '';
+            for(var i in types){
+                type += types[i] + ','
+            }
+            type = type.substring(0,type.lastIndexOf(','));
+            formData.set('type',type);
+            $.ajax({
+                url: '/group/save',
+                data: formData,
+                contentType: false,
+                processData: false,
+                type: 'post'
+            }).then(function(data){
+                if(data.status == 1){
+                    layer.msg("保存成功")
+                    document.forms.detailForm.reset();
+                }
+            })
+        }
+        function closeShadow(e){
+            e = e || window.event;
+            e.preventDefault();
+            $("#detail").hide();
+        }
+    </script>
+</body>
+</html>

@@ -2,9 +2,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://10.138.25.23:8066/ejlpro?useUnicode=true&characterEncoding=UTF-8
-    username: ejldb_proxy
-    password: Lrem3Nvfr8Dwsc
+    url: jdbc:mysql://localhost:3306/marry?useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: root
   thymeleaf:
     cache: false
     mode: HTML5
@@ -14,9 +14,9 @@ spring:
 #    prefix: /templates/
 #    suffix: .html
 mybatis:
-  type-aliases-package: net.haier.school.toupiao.entity
+  type-aliases-package: com.mk.onevone.entity
   mapper-locations: classpath:/mappers/*Mapper.xml
-#  config-location: classpath*:/mybatis-config.xml
+  config-location: classpath:/mybatis-config.xml
 pagehelper:
     helperDialect: mysql
     reasonable: true
@@ -26,4 +26,10 @@ pagehelper:
     returnPageInfo: always
 server:
   context-path: /
-
+qiniu:
+  AK: iPBVbNYwFb_7M5GOHYFjTFEkcsDqMomFbRVA95tt
+  SK: UJjluq3LsyqQYwF9192pYFFDCl0bITqykZqggzHd
+  bucket: onevone
+multipart:
+  maxFileSize: 10Mb
+  maxRequestSize: 100Mb
