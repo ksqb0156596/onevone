@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script src='js/assist/jquery-1.12.4.min.js'></script>
+    <script src='js/util.js'></script>
 </head>
 <body>
     <a href="/group">工作室配置</a>
@@ -11,8 +12,12 @@
     <a href="/recommend">推荐配置</a>
     <!--<input type="file" id="upload" name="file"/>-->
     <!--<button onclick="upload()">upload</button>-->
-    <!--<script>-->
-
-    <!--</script>-->
+    <script>
+        $.ajax({
+            url: "/login/checkLogin"
+        }).then(function(data){
+            $utils.checkLogin(data);
+        })
+    </script>
 </body>
 </html>

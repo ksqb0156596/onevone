@@ -20,4 +20,8 @@ public class ViewController {
     public String recommend(){
         return "/recommend";
     }
+    @RequestMapping(value = "/login")
+    public String login(){
+        return "/login";
+    }
 }

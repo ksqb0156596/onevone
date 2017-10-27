@@ -2,73 +2,114 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <title>个人信息配置</title>
     <script src='./js/assist/jquery-3.2.1.min.js'></script>
     <script src='./js/assist/bootstrap-table/bootstrap-table.min.js'></script>
     <script src='./js/assist/bootstrap-table/bootstrap-table-zh-CN.min.js'></script>
     <script src='./js/util.js'></script>
     <script src='./js/assist/layer/layer.js'></script>
+    <script src='./js/assist/layui/layui.js'></script>
     <link href="./css/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="./css/style.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="./js/assist/layui/css/layui.css"  media="all" />
 </head>
 <body>
 <div id="detail" class="container" style="z-index: 1;display: none">
-    <form id="detailForm" action="" name="detailForm">
-        <div class="row">
-            <div class="col-md-3">姓名</div>
-            <div class="col-md-8"><input type="text" id="name" name="name"/></div>
-        </div>
-        <div class="row">
-            <div class="col-md-3">性质</div>
-            <div class="col-md-8">
-                <span><input type="checkbox" name="type" value="0"/>摄影</span>
-                <span><input type="checkbox" name="type" value="1"/>化妆</span>
-                <span><input type="checkbox" name="type" value="2"/>主持</span>
-                <span><input type="checkbox" name="type" value="3"/>航拍</span>
+    <form id="detailForm" action="" name="detailForm" class="layui-form">
+        <input type="hidden" id="id" name="id" />
+        <div class="layui-form-item">
+            <label class="layui-form-label">姓名</label>
+            <div class="layui-input-block">
+                <input type="text" id="name" name="name" placeholder="请输入姓名" lay-verify="required" class="layui-input"/>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-3">图标</div>
-            <div class="col-md-8">
-                <div>
-                    <input type="file" id="file" name="file" /><button onclick="upload()">上传</button>
-                </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">职业类型</label>
+            <div class="layui-input-block">
+                <input type="radio" name="type" title="摄影" value="0" lay-filter="type"/>
+                <input type="radio" name="type" title="化妆" value="1" lay-filter="type"/>
+                <input type="radio" name="type" title="主持" value="2" lay-filter="type"/>
+                <input type="radio" name="type" title="航拍" value="3" lay-filter="type"/>
+                <input type="radio" name="type" title="乐队" value="4" lay-filter="type"/>
+                <input type="radio" name="type" title="摄像" value="5" lay-filter="type"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">性别</label>
+            <div class="layui-input-block">
+                <input type="radio" name="sex" value="0" title="女" lay-verify="required"/>
+                <input type="radio" name="sex" value="1" title="男" lay-verify="required"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">城市</label>
+            <div class="layui-input-block">
+                <input type="text" name="city" class="layui-input"  placeholder="请输入所在城市" lay-verify="required"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">所属团队</label>
+            <div class="layui-input-block">
+                <select name="groupId" id="groupId" lay-verify="required">
+
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">图标</label>
+            <div class="layui-input-block">
+                <button type="button" class="layui-btn" id="photo">
+                    <i class="layui-icon">&#xe67c;</i>上传图片
+                </button>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                <img src="" id="preview" style="width: 40%;height: 20%"/>
+                <img src="" id="preview-file" style="width: 40%;height: 20%"/>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-3">视频</div>
-            <div class="col-md-8">
-                <div>
-                    <input type="file" id="fileVedio" name="fileVedio" /><button onclick="upload()">上传</button>
-                </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <input type="radio" name="showType" value="0" checked="checked" title="视频" lay-filter="showType"/>
+                <input type="radio" name="showType" value="1" title="图片" lay-filter="showType"/>
             </div>
         </div>
-        <div class="row">
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="button" class="layui-btn video" id="video">
+                    <i class="layui-icon">&#xe67c;</i>上传视频
+                </button>
+                <button type="button" class="layui-btn pic" style="display: none" id="pic">
+                    <i class="layui-icon">&#xe67c;</i>上传图片
+                </button>
+            </div>
+        </div>
+        <div class="layui-form-item" id="showVideo">
             <div class="col-md-12">
-                <video src="" id="preview-video" style="width: 40%;height: 20%"/>
+                <video src="" id="preview-fileVideo" controls="controls" style="width: 40%;height: 20%"/>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-3">状态</div>
-            <div class="col-md-8">
-                <span><input type="radio" name="status" value='0' />失效</span>
-                <span><input type="radio" name="status" value='1' checked="checked"/>有效</span>
+        <div class="layui-form-item" id="showPic" style="display: none">
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">状态</label>
+            <div class="layui-input-block">
+                <span><input type="radio" name="status" value='0' title="失效"/></span>
+                <span><input type="radio" name="status" value='1' checked="checked" title="有效"/></span>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-3">一句话</div>
-            <div class="col-md-8">
-                <span><textarea type="text" name="inShort"></textarea></span>
+        <div class="layui-form-item">
+            <label class="layui-form-label">一句话</label>
+            <div class="layui-input-block">
+                <textarea type="text" name="inShort"></textarea>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-3">简介</div>
-            <div class="col-md-8">
-                <span><textarea type="text" name="introduction"></textarea></span>
+        <div class="layui-form-item">
+            <label class="layui-form-label">简介</label>
+            <div class="layui-input-block">
+                <textarea type="text" name="introduce"></textarea>
             </div>
         </div>
         <div class="row">
@@ -80,8 +121,8 @@
 
 </div>
 <div>
-    <button class='btn btn-primary'>增加</button>
-    <button class='btn btn-primary'>返回</button>
+    <button class='btn btn-primary' onclick="showShadow()">增加</button>
+    <button class='btn btn-primary' onclick="window.location.href='/'">返回</button>
     <label class="label label-warning">上线团队</label>
     <label class="label label-default">下线团队</label>
     <label class="label label-default">全部团队</label>
@@ -91,85 +132,248 @@
 
 </div>
 <script>
+    layui.use('upload', function () {
+        var upload = layui.upload;
+        upload.render({
+            elem: '#photo',
+            url: '/upload',
+            accept: 'images',
+            field: 'file',
+            before: function () {
+                layer.load(2);
+            },
+            done: function (data) {
+                layer.closeAll('loading');
+                $("#preview-file").attr('src',$utils.httpUrl + data.message)
+                $("#preview-file").attr('img-id',data.message)
+            }
+        })
+        upload.render({
+            elem: '#video',
+            url: '/upload',
+            accept: 'video',
+            field: 'file',
+            before: function () {
+                layer.load(2);
+            },
+            done: function (data) {
+                layer.closeAll('loading');
+                $("#preview-video").attr('src',$utils.httpUrl + data.message)
+                $("#preview-video").attr('img-id',data.message)
+            }
+        })
+        upload.render({
+            elem: '#pic',
+            url: '/upload',
+            accept: 'images',
+            multiple: true,
+            field: 'file',
+            before: function () {
+                layer.load(2);
+            },
+            done: function (data) {
+                layer.closeAll('loading');
+                $('#showPic').append('<img name="pictures" class="pic" onclick="deletePic(event)" src="' + $utils.httpUrl + data.message + '" img-id="' + data.message + '" />')
+            }
+        })
+    })
+    layui.use('form', function () {
+        var form = layui.form;
+        form.on('radio(type)',function(data){
+            getOptions(data.value,function(){
+                form.render('select');
+            })
+        });
+        form.on('radio(showType)',function(data){
+            if(data.value == 0){
+                $('#video').show();
+                $('#showVideo').show();
+                $('#pic').hide()
+                $('#showPic').hide()
+            }else if(data.value == 1){
+                $('#video').hide();
+                $('#showVideo').hide();
+                $('#pic').show()
+                $('#showPic').show()
+            }
+        })
+    })
+    var queryObj = {
+        status : 1
+    }
     findList();
+
+    function deletePic(e){
+        e = window.event || e;
+        layer.confirm('确认删除？', {icon: 3, title:'提示'}, function(index){
+            $(e.target).remove();
+            layer.close(index);
+        });
+    }
+
     function findList(){
         $.ajax({
-            url: '/group/findList'
+            url: '/personal/findList',
+            data: queryObj
         }).then(function(data){
             var list = data.result;
-            $('#table').bootstrapTable({
+            $('#table').bootstrapTable('destroy').bootstrapTable({
                 searchText:"",
                 columns: [{
                     field: 'id',
                     title: 'id'
                 }, {
                     field: 'name',
-                    title: '团队名称'
+                    title: '名称'
                 }, {
                     field: 'status',
-                    title: '团队状态',
+                    title: '状态',
                     formatter: function(value, row, index){
                         if(row.status == 0)return "禁用"
                         if(row.status == 1)return "启用"
                     }
                 }, {
                     field: 'type',
-                    title: '团队类型',
+                    title: '类型',
                     formatter: function(value, row, index){
                         var type = row.type;
-                        type = type.replace("0","摄影");
-                        type = type.replace("1","化妆");
-                        type = type.replace("2","主持");
-                        type = type.replace("3","航拍");
-                        return type;
+                        switch (type){
+                            case 0 : return "摄影"
+                            case 1 : return "化妆"
+                            case 2 : return "主持"
+                            case 3 : return "航拍"
+                            case 4 : return "乐队"
+                            case 5 : return "摄像"
+                            default : return "-"
+                        }
                     }
                 }, {
-                    field: 'introduction',
-                    title: '简介'
-                }, {
+                    field: 'groupName',
+                    title: '所属工作室'
+                },{
                     title: '操作',
-                    events:{
-                        'click .label-info' : function(e, value, row, index){
-                            console.log(row);
-                        },
-                        'click .label-danger' : function(e, value, row, index){
-                            console.log(row);
-                        }
+                    events: {
+                        'click .label-info': edit,
+                        'click .label-danger': del,
                     },
                     formatter: function(){
-                        return '<label class="label label-info">编辑</label><label class="label label-danger">删除</label>'
+                        return '<label class="label label-info">编辑</label><label class="label label-danger">删除</label>';
+//                            '<label class="label label-default">不推荐</label><label class="label label-primary" style="display: none">推荐</label> '
                     }
                 }],
                 data: list
             })
         })
-        $('#table').bootstrapTable('hideLoading', '');
     }
+    function del(e, value, row, index){
+        $.ajax({
+            url: '/group/delete',
+            data:{id:row.id},
+            type: 'post'
+        }).then(function(data){
+            layer.msg("删除成功");
+            findList();
+        })
+    }
+    function edit(e, value, row, index){
+        reset();
+        var keys = Object.keys(row);
+        for(var i in keys){
+            var key = keys[i];
+            var form = $('[name="' + key + '"]');
+            if(key == 'photoUrl'){
+                $('#preview-file').attr("src",$utils.httpUrl + row[key]);
+                $('#preview-file').attr("img-id",row[key]);
+                continue;
+            }else if(key == 'showType'){
+                var showType = row[key];
+                $('input[name="showType"][value="' + showType + '"]').click();
+                if(showType == 0){
+                    $('#preview-fileVideo').attr("src",$utils.httpUrl + row[key]);
+                    $('#preview-fileVideo').attr("img-id",row[key]);
+                    $('#video').show();
+                    $('#showVideo').show();
+                    $('#pic').hide()
+                    $('#showPic').hide()
+                }else if(showType == 1){
+                    if(row.picUrl != undefined){
+                        var pic = row.picUrl.split(',');
+                        for(var j in pic){
+                            $('#showPic').append('<img name="pictures" class="pic" onclick="deletePic(event)" src="' + $utils.httpUrl + pic[j] + '" img-id="' + pic[j] + '" />')
+                        }
+                    }
+                    $('#video').hide();
+                    $('#showVideo').hide();
+                    $('#pic').show()
+                    $('#showPic').show()
+                }
+                continue;
+            }
+            if(form.is('input')){
+                if(form.attr('type') == 'checkbox'){
+                    form.each(function(item){
+                        if(row[key].indexOf(this.value) >  -1){
+                            $(this).attr("checked",true);
+                        }
+                    })
+                }else if(form.attr('type') == 'radio'){
+                    form.each(function (item) {
+                        if(row[key] == this.value){
+                            $(this).attr("checked",true);
+                            return;
+                        }
+                    })
+                }else{
+                    $('[name="' + key + '"]').val(row[key]);
+                }
 
-    function upload(e){
+            }else if(form.is("select")){
+                getOptions(row.type,function(){
+                    $("#groupId").val(row.groupId);
+                })
+            }else{
+                $('[name="' + key + '"]').text(row[key]);
+            }
+
+        }
+        layui.use('form', function () {
+            layui.form.render();
+        })
+        showShadow();
+    }
+    function upload(id,e){
         e = e || window.event;
         e.preventDefault();
         function success(data){
-            console.log(data);
-            $("#preview").attr("src","http://oxp6k4ur5.bkt.clouddn.com/" + data)
-            $("#preview").attr("img-id",data)
+            $("#preview-" + id).attr("src",$utils.httpUrl + data)
+            $("#preview-" + id).attr("img-id",data)
         }
-        $utils.upload("file",success);
+        $utils.upload(id,success);
     }
     function save(e){
         e = e || window.event;
         e.preventDefault();
         var formData = new FormData(document.forms.detailForm);
-        formData.append("photoUrl",$('#preview').attr('img-id'));
-        var types = formData.getAll('type');
-        var type = '';
-        for(var i in types){
-            type += types[i] + ','
+        var imgId = $('#preview-file').attr('img-id');
+        if(imgId){
+            formData.append("photoUrl",imgId);
         }
-        type = type.substring(0,type.lastIndexOf(','));
-        formData.set('type',type);
+        imgId = $('#preview-fileVideo').attr('img-id');
+        if(imgId){
+            formData.append("videoUrl",imgId);
+        }
+
+        if($('img[name="pictures"]').length > 0){
+            var pic = "";
+            $('img[name="pictures"]').each(function (item) {
+                pic += $(this).attr("img-id") + ",";
+            })
+            formData.append("picUrl",pic.substring(0,pic.length - 1));
+        }
+        formData.delete("file");
+        formData.delete("fileVideo");
         $.ajax({
-            url: '/group/save',
+            url: '/personal/save',
             data: formData,
             contentType: false,
             processData: false,
@@ -177,14 +381,47 @@
         }).then(function(data){
             if(data.status == 1){
                 layer.msg("保存成功")
-                document.forms.detailForm.reset();
+                reset();
+                findList();
+                closeShadow(null);
             }
         })
     }
+    function showShadow(){
+        $("#detail").show(100);
+    }
     function closeShadow(e){
-        e = e || window.event;
-        e.preventDefault();
-        $("#detail").hide();
+        if(e != null){
+            e = e || window.event;
+            e.preventDefault();
+        }
+        $("#detail").hide(100);
+        reset();
+    }
+    function reset(){
+        document.forms.detailForm.reset();
+        $('#preview-file').attr('src','');
+        $('#preview-fileVideo').attr('src','');
+        $('#showPic').html('')
+        $('#groupId').html('')
+        $('textarea').text('')
+    }
+    $('input[name="type"]').on('change',function(){
+        getOptions(this.value);
+    })
+    function getOptions(type,callback){
+        $.ajax({
+            url: '/group/findList',
+            data: {type:type,status:1}
+        }).then(function(data){
+            var options = '';
+            data = data.result;
+            for(var i in data){
+                options += '<option value="' + data[i].id + '">' + data[i].name + '</option>'
+            }
+            $('#groupId').html(options)
+            if(callback)callback();
+        })
     }
 </script>
 </body>

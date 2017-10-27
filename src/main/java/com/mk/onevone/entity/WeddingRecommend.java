@@ -7,7 +7,7 @@ public class WeddingRecommend {
 
     private Integer groupId;
 
-    private Boolean type;
+    private Integer type;
 
     public Integer getId() {
         return id;
@@ -33,11 +33,11 @@ public class WeddingRecommend {
         this.groupId = groupId;
     }
 
-    public Boolean getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(Boolean type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 }

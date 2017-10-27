@@ -2,15 +2,18 @@
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/marry?useUnicode=true&characterEncoding=UTF-8
-    username: root
-    password: root
+    url: jdbc:mysql://119.29.221.136:3306/onevone?useUnicode=true&characterEncoding=UTF-8
+    username: onevone
+    password: e_kqTcFI
   thymeleaf:
     cache: false
     mode: HTML5
   http:
     encoding:
       charset: UTF-8
+    multipart:
+      maxFileSize: 100Mb
+      maxRequestSize: 100Mb
 #    prefix: /templates/
 #    suffix: .html
 mybatis:
@@ -30,6 +33,3 @@ qiniu:
   AK: iPBVbNYwFb_7M5GOHYFjTFEkcsDqMomFbRVA95tt
   SK: UJjluq3LsyqQYwF9192pYFFDCl0bITqykZqggzHd
   bucket: onevone
-multipart:
-  maxFileSize: 10Mb
-  maxRequestSize: 100Mb

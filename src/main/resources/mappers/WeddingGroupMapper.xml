@@ -34,7 +34,7 @@
         AND introduction = #{introduction,jdbcType=VARCHAR}
       </if>
       <if test="type != null">
-        AND `type` = #{type,jdbcType=VARCHAR}
+        AND `type` LIKE CONCAT('%',#{type,jdbcType=VARCHAR},'%')
       </if>
       <if test="status != null">
         AND status = #{status,jdbcType=TINYINT}

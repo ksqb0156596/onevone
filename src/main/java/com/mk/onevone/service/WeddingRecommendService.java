@@ -11,5 +11,6 @@ public interface WeddingRecommendService {
     int save(WeddingRecommend weddingRecommend);
     int delete(int id,int status);
     List<WeddingRecommend> findList(WeddingRecommend weddingRecommend);
+    List findRecommendList(int type);
     WeddingRecommend get(int id);
 }

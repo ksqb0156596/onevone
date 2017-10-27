@@ -16,7 +16,7 @@
     from wedding_recommend
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="findList" resultMap="BaseResultMap">
+  <select id="findList" resultType="com.mk.onevone.entity.WeddingGroup">
     select
     <include refid="Base_Column_List" />
     from wedding_recommend
@@ -31,6 +31,16 @@
         AND `type` = #{type,jdbcType=INTEGER}
       </if>
     </where>
+  </select>
+  <select id="findRecommendByPerson" resultType="com.mk.onevone.entity.WeddingPersonal">
+    select wp.id, wp.name, wp.type, wp.group_id, wp.sex, wp.city, wp.in_short, wp.introduce, wp.video_url, wp.photo_url
+    from wedding_personal wp
+    where EXISTS (select * from wedding_recommend wr where wr.person_id = wp.id)
+  </select>
+  <select id="findRecommendByGroup" resultMap="BaseResultMap">
+    select wp.id, wp.name, wp.type, wp.photo_url
+    from wedding_group wp
+    where EXISTS (select * from wedding_recommend wr where wr.group_id = wp.id)
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from wedding_recommend

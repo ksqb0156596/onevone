@@ -23,6 +23,10 @@ public class WeddingRecommendController {
     public Object findList(WeddingRecommend weddingRecommend){
         return new ResultDTO<>(1,weddingRecommendService.findList(weddingRecommend));
     }
+    @RequestMapping(value = "/findRecommendList")
+    public Object findRecommendList(int type){
+        return new ResultDTO<>(1,weddingRecommendService.findRecommendList(type));
+    }
 
     @RequestMapping(value = "/get")
     public Object get(int id){

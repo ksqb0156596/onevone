@@ -12,4 +12,5 @@ public interface WeddingPersonalService {
     int delete(int id,int status);
     List<WeddingPersonal> findList(WeddingPersonal weddingPersonal);
     WeddingPersonal get(int id);
+    List<WeddingPersonal> findListByRecommend(String ids);
 }

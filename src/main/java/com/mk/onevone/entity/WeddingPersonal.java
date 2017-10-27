@@ -13,7 +13,7 @@ public class WeddingPersonal {
 
     private Integer groupId;
 
-    private Boolean sex;
+    private Integer sex;
 
     private String city;
 
@@ -21,9 +21,13 @@ public class WeddingPersonal {
 
     private String introduce;
 
+    private Integer showType;
+    private String picUrl;
     private String videoUrl;
 
     private String photoUrl;
+
+    private String groupName;
 
     private Date createTime;
 
@@ -59,11 +63,11 @@ public class WeddingPersonal {
         this.groupId = groupId;
     }
 
-    public Boolean getSex() {
+    public Integer getSex() {
         return sex;
     }
 
-    public void setSex(Boolean sex) {
+    public void setSex(Integer sex) {
         this.sex = sex;
     }
 
@@ -113,5 +117,37 @@ public class WeddingPersonal {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+
+    public Integer getShowType() {
+        return showType;
+    }
+
+    public void setShowType(Integer showType) {
+        this.showType = showType;
+    }
+
+    public String getPicUrl() {
+        return picUrl;
+    }
+
+    public void setPicUrl(String picUrl) {
+        this.picUrl = picUrl;
     }
 }

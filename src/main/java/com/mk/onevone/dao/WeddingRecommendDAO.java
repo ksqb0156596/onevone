@@ -1,5 +1,6 @@
 package com.mk.onevone.dao;
 
+import com.mk.onevone.entity.WeddingGroup;
 import com.mk.onevone.entity.WeddingPersonal;
 import com.mk.onevone.entity.WeddingRecommend;
 import org.apache.ibatis.annotations.Mapper;
@@ -22,4 +23,7 @@ public interface WeddingRecommendDAO {
     int updateByPrimaryKeySelective(WeddingRecommend record);
 
     int updateByPrimaryKey(WeddingRecommend record);
+
+    List<WeddingPersonal> findRecommendByPerson();
+    List<WeddingGroup> findRecommendByGroup();
 }

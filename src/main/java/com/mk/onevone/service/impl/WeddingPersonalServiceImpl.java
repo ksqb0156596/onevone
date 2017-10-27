@@ -37,4 +37,10 @@ public class WeddingPersonalServiceImpl implements WeddingPersonalService{
     public WeddingPersonal get(int id) {
         return weddingPersonalDAO.selectByPrimaryKey(id);
     }
+
+    @Override
+    public List<WeddingPersonal> findListByRecommend(String ids) {
+        return weddingPersonalDAO.findListByRecommend();
+    }
+
 }

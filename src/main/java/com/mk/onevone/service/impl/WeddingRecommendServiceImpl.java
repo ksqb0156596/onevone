@@ -6,6 +6,7 @@ import com.mk.onevone.service.WeddingRecommendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,8 +20,9 @@ public class WeddingRecommendServiceImpl implements WeddingRecommendService{
 
     @Override
     public int save(WeddingRecommend weddingRecommend) {
-        if(weddingRecommend.getId() == null)
+        if(weddingRecommend.getId() == null) {
             return weddingRecommendDAO.insert(weddingRecommend);
+        }
         return weddingRecommendDAO.updateByPrimaryKeySelective(weddingRecommend);
     }
 
@@ -32,6 +34,16 @@ public class WeddingRecommendServiceImpl implements WeddingRecommendService{
     @Override
     public List<WeddingRecommend> findList(WeddingRecommend weddingRecommend) {
         return weddingRecommendDAO.findList(weddingRecommend);
+    }
+
+    @Override
+    public List findRecommendList(int type) {
+        if(type == 0){
+            return weddingRecommendDAO.findRecommendByGroup();
+        }else if(type == 1){
+            return weddingRecommendDAO.findRecommendByPerson();
+        }
+        return new ArrayList();
     }
 
     @Override

@@ -18,6 +18,7 @@ public interface WeddingPersonalDAO {
     WeddingPersonal selectByPrimaryKey(Integer id);
 
     List<WeddingPersonal> findList(WeddingPersonal weddingPersonal);
+    List<WeddingPersonal> findListByRecommend();
 
     int updateByPrimaryKeySelective(WeddingPersonal record);
 

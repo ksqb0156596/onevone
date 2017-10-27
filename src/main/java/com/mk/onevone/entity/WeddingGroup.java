@@ -16,7 +16,7 @@ public class WeddingGroup {
 
     private String type;
 
-    private Boolean status;
+    private Integer status;
 
     private Date createTime;
 
@@ -60,11 +60,11 @@ public class WeddingGroup {
         this.type = type;
     }
 
-    public Boolean getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(Boolean status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 

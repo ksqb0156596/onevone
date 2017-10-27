@@ -9,10 +9,12 @@
     <script src='./js/util.js'></script>
     <script src='./js/assist/layer/layer.js'></script>
     <link href="./css/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="./css/style.css" rel="stylesheet"/>
 </head>
 <body>
-    <div id="detail" class="container" style="z-index: 1;display: none">
+    <div id="detail" class="container">
         <form id="detailForm" action="" name="detailForm">
+            <input type="hidden" id="id" name="id" />
             <div class="row">
                 <div class="col-md-3">姓名</div>
                 <div class="col-md-8"><input type="text" id="name" name="name"/></div>
@@ -24,6 +26,8 @@
                     <span><input type="checkbox" name="type" value="1"/>化妆</span>
                     <span><input type="checkbox" name="type" value="2"/>主持</span>
                     <span><input type="checkbox" name="type" value="3"/>航拍</span>
+                    <span><input type="checkbox" name="type" value="4"/>乐队</span>
+                    <span><input type="checkbox" name="type" value="5"/>摄像</span>
                 </div>
             </div>
             <div class="row">
@@ -61,8 +65,8 @@
 
     </div>
     <div>
-        <button class='btn btn-primary'>增加</button>
-        <button class='btn btn-primary'>返回</button>
+        <button class='btn btn-primary' onclick="showShadow()">增加</button>
+        <button class='btn btn-primary' onclick="window.location.href='/'">返回</button>
         <label class="label label-warning">上线团队</label>
         <label class="label label-default">下线团队</label>
         <label class="label label-default">全部团队</label>
@@ -72,13 +76,18 @@
 
     </div>
     <script>
+        var queryObj = {
+            status : 1
+        }
         findList();
+
         function findList(){
             $.ajax({
-                url: '/group/findList'
+                url: '/group/findList',
+                data: queryObj
             }).then(function(data){
                 var list = data.result;
-                $('#table').bootstrapTable({
+                $('#table').bootstrapTable('destroy').bootstrapTable({
                     searchText:"",
                     columns: [{
                         field: 'id',
@@ -109,13 +118,9 @@
                         title: '简介'
                     }, {
                         title: '操作',
-                        events:{
-                          'click .label-info' : function(e, value, row, index){
-                              console.log(row);
-                          },
-                          'click .label-danger' : function(e, value, row, index){
-                              console.log(row);
-                          }
+                        events: {
+                            'click .label-info': edit,
+                            'click .label-danger': del,
                         },
                         formatter: function(){
                             return '<label class="label label-info">编辑</label><label class="label label-danger">删除</label>'
@@ -124,15 +129,57 @@
                     data: list
                 })
             })
-            $('#table').bootstrapTable('hideLoading', '');
         }
+        function del(e, value, row, index){
+            $.ajax({
+                url: '/group/delete',
+                data:{id:row.id},
+                type: 'post'
+            }).then(function(data){
+                layer.msg("删除成功");
+                findList();
+            })
+        }
+        function edit(e, value, row, index){
+            document.forms.detailForm.reset();
+            var keys = Object.keys(row);
+            for(var i in keys){
+                var key = keys[i];
+                var form = $('[name="' + key + '"]');
+                if(key == 'photoUrl'){
+                    $('#preview').attr("src",$utils.httpUrl + row[key]);
+                    continue;
+                }
+                if(form.is('input')){
+                    if(form.attr('type') == 'checkbox'){
+                        form.each(function(item){
+                            if(row[key].indexOf(this.value) >  -1){
+                                $(this).attr("checked",true);
+                            }
+                        })
+                    }else if(form.attr('type') == 'radio'){
+                        form.each(function (item) {
+                            if(row[key] == this.value){
+                                $(this).attr("checked",true);
+                                return;
+                            }
+                        })
+                    }else{
+                        $('[name="' + key + '"]').val(row[key]);
+                    }
 
+                }else{
+                    $('[name="' + key + '"]').text(row[key]);
+                }
+            }
+            showShadow();
+        }
         function upload(e){
             e = e || window.event;
             e.preventDefault();
             function success(data){
                 console.log(data);
-                $("#preview").attr("src","http://oxp6k4ur5.bkt.clouddn.com/" + data)
+                $("#preview").attr("src",$utils.httpUrl + data)
                 $("#preview").attr("img-id",data)
             }
             $utils.upload("file",success);
@@ -141,6 +188,7 @@
             e = e || window.event;
             e.preventDefault();
             var formData = new FormData(document.forms.detailForm);
+            formData.delete("file");
             formData.append("photoUrl",$('#preview').attr('img-id'));
             var types = formData.getAll('type');
             var type = '';
@@ -159,13 +207,18 @@
                 if(data.status == 1){
                     layer.msg("保存成功")
                     document.forms.detailForm.reset();
+                    findList();
                 }
             })
+        }
+        function showShadow(){
+            $("#detail").show(100);
         }
         function closeShadow(e){
             e = e || window.event;
             e.preventDefault();
-            $("#detail").hide();
+            document.forms.detailForm.reset();
+            $("#detail").hide(100);
         }
     </script>
 </body>

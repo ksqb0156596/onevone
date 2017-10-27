@@ -3,8 +3,82 @@
 <head>
     <meta charset="UTF-8"/>
     <title>推荐配置</title>
+    <script src='./js/assist/jquery-3.2.1.min.js'></script>
+    <script src='./js/assist/layer/layer.js'></script>
 </head>
 <body>
-
+    <div>
+        <select id="recommendType">
+            <option value="0">工作室</option>
+            <option value="1">个人</option>
+        </select>
+    </div>
+    <div>
+        <select id="type">
+            <option value="0">摄影</option>
+            <option value="1">化妆</option>
+            <option value="2">主持</option>
+            <option value="3">航拍</option>
+        </select>
+    </div>
+    <div>
+        <select id="recommend"></select>
+    </div>
+    <div><button onclick="addone()">添加</button></div>
+    <div id="list"></div>
+    <script>
+        function addone(){
+            var data = {};
+            data.type = $('#recommendType').val();
+            if($('#recommend').val() == null || $('#recommend').val().length == 0){
+                return;
+            }
+            if(data.type == 0){
+                data.groupId = $('#recommend').val();
+            }else if(data.type == 1){
+                data.personId = $('#recommend').val();
+            }
+            $.ajax({
+                url: '/recommend/save',
+                data: {type:data}
+            }).then(function(){
+                layer.msg("添加成功");
+                $('#list').append()
+            })
+        }
+        $('#recommendType').on('change',function(){
+            var type = $('#type').val();
+            if( type != null && type.length > 0){
+                getList()
+            }
+        })
+        $('#type').on('change',function(){
+            var type = $('#recommendType').val();
+            if( type != null && type.length > 0){
+                getList()
+            }
+        })
+        function getList(){
+            var type = $('#type').val();
+            var url = '';
+            if(type == 0){
+                url = 'group';
+            }else if(type == 1){
+                url = 'personal';
+            }
+            $.ajax({
+                url: '/' + url + '/findList',
+                data: {status:1}
+            }).then(function(data){
+                data = data.result;
+                var options = '';
+                for(var i in data){
+                    var option = data[i];
+                    options += '<option value="' + option.id + '">' + option.name + '</option>'
+                }
+                $('#recommend').html(options);
+            })
+        }
+    </script>
 </body>
 </html>

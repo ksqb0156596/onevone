@@ -6,17 +6,20 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="type" jdbcType="TINYINT" property="type" />
     <result column="group_id" jdbcType="INTEGER" property="groupId" />
+    <result column="groupName" jdbcType="VARCHAR" property="groupName" />
     <result column="sex" jdbcType="TINYINT" property="sex" />
     <result column="city" jdbcType="VARCHAR" property="city" />
     <result column="in_short" jdbcType="VARCHAR" property="inShort" />
     <result column="introduce" jdbcType="VARCHAR" property="introduce" />
     <result column="video_url" jdbcType="VARCHAR" property="videoUrl" />
+    <result column="show_type" jdbcType="TINYINT" property="showType" />
+    <result column="pic_url" jdbcType="VARCHAR" property="picUrl" />
     <result column="photo_url" jdbcType="VARCHAR" property="photoUrl" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, type, group_id, sex, city, in_short, introduce, video_url, photo_url, status, 
+    id, name, type, group_id, sex, city, in_short, introduce,show_type, video_url,pic_url, photo_url, status,
     create_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -27,26 +30,27 @@
   </select>
   <select id="findList" resultMap="BaseResultMap">
     select
-    <include refid="Base_Column_List" />
-    from wedding_personal
+    wp.id, wp.name, wp.type, wp.group_id, wp.sex, wp.city, wp.in_short, wp.introduce, wp.show_type,wp.video_url, wp.pic_url, wp.photo_url, wp.status, wg.name as groupName
+    from wedding_personal wp
+    LEFT JOIN wedding_group wg ON wp.group_id = wg.id
     <where>
       <if test="name != null">
-        AND `name` = #{name,jdbcType=VARCHAR}
+        AND wp.name = #{name,jdbcType=VARCHAR}
       </if>
       <if test="type != null">
-        AND `type` = #{type,jdbcType=TINYINT}
+        AND wp.type = #{type,jdbcType=TINYINT}
       </if>
       <if test="groupId != null">
-        AND group_id = #{groupId,jdbcType=INTEGER}
+        AND wp.group_id = #{groupId,jdbcType=INTEGER}
       </if>
       <if test="sex != null">
-        AND sex = #{sex,jdbcType=TINYINT}
+        AND wp.sex = #{sex,jdbcType=TINYINT}
       </if>
       <if test="city != null">
-        AND city = #{city,jdbcType=VARCHAR}
+        AND wp.city = #{city,jdbcType=VARCHAR}
       </if>
       <if test="status != null">
-        AND status = #{status,jdbcType=TINYINT}
+        AND wp.status = #{status,jdbcType=TINYINT}
       </if>
     </where>
   </select>
@@ -56,21 +60,18 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.mk.onevone.entity.WeddingPersonal">
-    insert into wedding_personal (id, name, type, 
+    insert into wedding_personal (name, type,
       group_id, sex, city, in_short, 
-      introduce, video_url, photo_url, 
+      introduce, show_type, video_url,pic_url, photo_url,
       status)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
+    values (#{name,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT},
       #{groupId,jdbcType=INTEGER}, #{sex,jdbcType=TINYINT}, #{city,jdbcType=VARCHAR}, #{inShort,jdbcType=VARCHAR}, 
-      #{introduce,jdbcType=VARCHAR}, #{videoUrl,jdbcType=VARCHAR}, #{photoUrl,jdbcType=VARCHAR}, 
+      #{introduce,jdbcType=VARCHAR}, #{showType,jdbcType=TINYINT}, #{videoUrl,jdbcType=VARCHAR}, #{picUrl,jdbcType=VARCHAR}, #{photoUrl,jdbcType=VARCHAR},
       #{status,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="com.mk.onevone.entity.WeddingPersonal">
     insert into wedding_personal
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="name != null">
         name,
       </if>
@@ -92,6 +93,12 @@
       <if test="introduce != null">
         introduce,
       </if>
+      <if test="showType != null">
+        show_type,
+      </if>
+      <if test="picUrl != null">
+        pic_url,
+      </if>
       <if test="videoUrl != null">
         video_url,
       </if>
@@ -103,9 +110,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
@@ -126,6 +130,12 @@
       </if>
       <if test="introduce != null">
         #{introduce,jdbcType=VARCHAR},
+      </if>
+      <if test="showType != null">
+        #{showType,jdbcType=TINYINT},
+      </if>
+      <if test="picUrl != null">
+        #{picUrl,jdbcType=VARCHAR},
       </if>
       <if test="videoUrl != null">
         #{videoUrl,jdbcType=VARCHAR},
@@ -162,6 +172,12 @@
       <if test="introduce != null">
         introduce = #{introduce,jdbcType=VARCHAR},
       </if>
+      <if test="showType != null">
+        show_type = #{showType,jdbcType=TINYINT},
+      </if>
+      <if test="picUrl != null">
+        pic_url = #{picUrl,jdbcType=VARCHAR},
+      </if>
       <if test="videoUrl != null">
         video_url = #{videoUrl,jdbcType=VARCHAR},
       </if>
@@ -183,6 +199,8 @@
       city = #{city,jdbcType=VARCHAR},
       in_short = #{inShort,jdbcType=VARCHAR},
       introduce = #{introduce,jdbcType=VARCHAR},
+      show_type = #{showType,jdbcType=TINYINT},
+      pic_url = #{picUrl,jdbcType=VARCHAR},
       video_url = #{videoUrl,jdbcType=VARCHAR},
       photo_url = #{photoUrl,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT}
