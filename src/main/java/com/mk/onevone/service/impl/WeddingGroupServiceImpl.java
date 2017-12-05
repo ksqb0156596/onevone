@@ -1,5 +1,7 @@
 package com.mk.onevone.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.mk.onevone.dao.WeddingGroupDAO;
 import com.mk.onevone.entity.WeddingGroup;
 import com.mk.onevone.service.WeddingGroupService;
@@ -35,6 +37,12 @@ public class WeddingGroupServiceImpl implements WeddingGroupService {
     @Override
     public List<WeddingGroup> findList(WeddingGroup weddingGroup) {
         return weddingGroupDAO.findList(weddingGroup);
+    }
+
+    @Override
+    public PageInfo<WeddingGroup> findList(WeddingGroup weddingGroup, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
+        return new PageInfo<>(this.findList(weddingGroup));
     }
 
     @Override

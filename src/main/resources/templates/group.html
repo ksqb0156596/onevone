@@ -111,6 +111,8 @@
                             type = type.replace("1","化妆");
                             type = type.replace("2","主持");
                             type = type.replace("3","航拍");
+                            type = type.replace("4","乐队");
+                            type = type.replace("5","摄像");
                             return type;
                         }
                     }, {
@@ -148,6 +150,7 @@
                 var form = $('[name="' + key + '"]');
                 if(key == 'photoUrl'){
                     $('#preview').attr("src",$utils.httpUrl + row[key]);
+                    $('#preview').attr("img-id",row[key]);
                     continue;
                 }
                 if(form.is('input')){
@@ -178,9 +181,8 @@
             e = e || window.event;
             e.preventDefault();
             function success(data){
-                console.log(data);
-                $("#preview").attr("src",$utils.httpUrl + data)
-                $("#preview").attr("img-id",data)
+                $("#preview").attr("src",$utils.httpUrl + data.message)
+                $("#preview").attr("img-id",data.message)
             }
             $utils.upload("file",success);
         }

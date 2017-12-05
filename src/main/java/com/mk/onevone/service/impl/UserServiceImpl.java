@@ -25,6 +25,6 @@ public class UserServiceImpl implements UserService {
             request.getSession().setAttribute("id",user.getId());
             return new ResultDTO(1,user);
         }
-        return new ResultDTO(0,user);
+        return new ResultDTO(9,user);
     }
 }

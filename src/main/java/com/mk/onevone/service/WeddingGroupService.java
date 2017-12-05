@@ -1,5 +1,6 @@
 package com.mk.onevone.service;
 
+import com.github.pagehelper.PageInfo;
 import com.mk.onevone.entity.WeddingGroup;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,5 +13,6 @@ public interface WeddingGroupService {
     int save(WeddingGroup weddingGroup);
     int delete(int id,int status);
     List<WeddingGroup> findList(WeddingGroup weddingGroup);
+    PageInfo<WeddingGroup> findList(WeddingGroup weddingGroup, Integer pageNum, Integer pageSize);
     WeddingGroup get(int id);
 }

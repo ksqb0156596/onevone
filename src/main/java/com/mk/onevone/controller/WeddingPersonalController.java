@@ -4,9 +4,7 @@ import com.mk.onevone.dto.ResultDTO;
 import com.mk.onevone.entity.WeddingPersonal;
 import com.mk.onevone.service.WeddingPersonalService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by 01436296 on 2017/10/12.
@@ -28,12 +26,18 @@ public class WeddingPersonalController {
     }
 
     @RequestMapping(value = "/save",method = RequestMethod.POST)
-    public Object save(WeddingPersonal weddingPersonal){
+    public Object save(@RequestBody WeddingPersonal weddingPersonal){
         return new ResultDTO<>(weddingPersonalService.save(weddingPersonal));
     }
 
-    @RequestMapping(value = "/delete",method = RequestMethod.POST)
-    public Object delete(Integer id){
+    @RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
+    public Object delete(@PathVariable Integer id){
         return new ResultDTO<>(weddingPersonalService.delete(id,9));
     }
+
+    @RequestMapping(value = "/findListByPage")
+    public Object findList(WeddingPersonal weddingPersonal,Integer pageNum, Integer pageSize){
+        return new ResultDTO<>(1,weddingPersonalService.findList(weddingPersonal,pageNum,pageSize));
+    }
+
 }

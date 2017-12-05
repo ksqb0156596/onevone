@@ -2,6 +2,7 @@ package com.mk.onevone.controller;
 
 import com.mk.onevone.dto.ResultDTO;
 import com.mk.onevone.util.QiniuUtils;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -45,8 +46,12 @@ public class FileUploadController {
         }catch (Exception e){
             return null;
         }
-
-
+    }
+    @RequestMapping(value = "/getToken", method = RequestMethod.GET)
+    public Object getToken() {
+        com.alibaba.fastjson.JSONObject jsonObject = new com.alibaba.fastjson.JSONObject();
+        jsonObject.put("uptoken",qiniuUtils.getToken());
+        return jsonObject;
     }
 
 }

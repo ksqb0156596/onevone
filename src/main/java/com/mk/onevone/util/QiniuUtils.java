@@ -38,16 +38,20 @@ public class QiniuUtils {
     }
 
     public String upload(MultipartFile file) throws IOException {
-        Auth auth = Auth.create(AK,SK);
-        String token = auth.uploadToken(bucket);
+        String token = getToken();
         Configuration configuration = new Configuration(Zone.zone2());
         UploadManager uploadManager = new UploadManager(configuration);
-        Response response = uploadManager.put(file.getBytes(), UUID.randomUUID().toString()
-                + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")),token);
+        Response response = uploadManager.put(file.getInputStream(), UUID.randomUUID().toString()
+                + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")),token,null,null);
         DefaultPutRet ret = JSON.parseObject(response.bodyString(),DefaultPutRet.class);
         if(ret != null && !StringUtils.isNullOrEmpty(ret.key)){
             return ret.key;
         }
         return null;
+    }
+
+    public String getToken(){
+        Auth auth = Auth.create(AK,SK);
+        return auth.uploadToken(bucket);
     }
 }

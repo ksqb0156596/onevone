@@ -62,7 +62,7 @@
         <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper-spring-boot-starter</artifactId>
-            <version>1.1.1</version>
+            <version>1.2.3</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -72,6 +72,16 @@
             <groupId>com.qiniu</groupId>
             <artifactId>qiniu-java-sdk</artifactId>
             <version>[7.2.0, 7.2.99]</version>
+        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.qcloud</groupId>-->
+            <!--<artifactId>cos_api</artifactId>-->
+            <!--<version>5.2.1</version>-->
+        <!--</dependency>-->
+        <dependency>
+            <groupId>com.github.qcloudsms</groupId>
+            <artifactId>sms</artifactId>
+            <version>0.9.1</version>
         </dependency>
     </dependencies>
     <build>

@@ -4,7 +4,7 @@ package com.mk.onevone.dto;
  * Created by 01436296 on 2017/10/12.
  */
 public class ResultDTO<T> {
-    private int status = 1;//0失败 1成功
+    private int status = 1;//0失败 1成功 9登录超时
     private String message;
     private T result;
 

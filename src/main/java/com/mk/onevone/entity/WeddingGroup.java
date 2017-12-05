@@ -20,6 +20,8 @@ public class WeddingGroup {
 
     private Date createTime;
 
+    private String[] types;
+
     public Integer getId() {
         return id;
     }
@@ -74,5 +76,16 @@ public class WeddingGroup {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String[] getTypes() {
+        if(type != null){
+            return type.split(",");
+        }
+        return types;
+    }
+
+    public void setTypes(String[] types) {
+        this.types = types;
     }
 }

@@ -1,5 +1,8 @@
 package com.mk.onevone.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.mk.onevone.dao.WeddingPersonalDAO;
 import com.mk.onevone.entity.WeddingPersonal;
 import com.mk.onevone.service.WeddingPersonalService;
@@ -18,8 +21,9 @@ public class WeddingPersonalServiceImpl implements WeddingPersonalService{
 
     @Override
     public int save(WeddingPersonal weddingPersonal) {
-        if(weddingPersonal.getId() == null)
+        if(weddingPersonal.getId() == null) {
             return weddingPersonalDAO.insert(weddingPersonal);
+        }
         return weddingPersonalDAO.updateByPrimaryKeySelective(weddingPersonal);
     }
 
@@ -31,6 +35,13 @@ public class WeddingPersonalServiceImpl implements WeddingPersonalService{
     @Override
     public List<WeddingPersonal> findList(WeddingPersonal weddingPersonal) {
         return weddingPersonalDAO.findList(weddingPersonal);
+    }
+
+    @Override
+    public PageInfo<WeddingPersonal> findList(WeddingPersonal weddingPersonal, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
+
+        return new PageInfo<WeddingPersonal>(this.findList(weddingPersonal));
     }
 
     @Override

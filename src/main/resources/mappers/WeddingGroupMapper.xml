@@ -24,17 +24,14 @@
     <include refid="Base_Column_List" />
     from wedding_group
     <where>
-      <if test="name != null">
-        AND `name` = #{name,jdbcType=VARCHAR}
+      <if test="name != null and name != ''">
+        AND `name` LIKE CONCAT('%',#{name,jdbcType=VARCHAR},'%')
       </if>
-      <if test="photoUrl != null">
-        AND photo_url = #{photoUrl,jdbcType=VARCHAR}
-      </if>
-      <if test="introduction != null">
-        AND introduction = #{introduction,jdbcType=VARCHAR}
-      </if>
-      <if test="type != null">
-        AND `type` LIKE CONCAT('%',#{type,jdbcType=VARCHAR},'%')
+      <if test="type != null and type != ''">
+        AND `type` IN
+        <foreach collection="types" item="item" open="(" close=")" separator=",">
+          #{item}
+        </foreach>
       </if>
       <if test="status != null">
         AND status = #{status,jdbcType=TINYINT}

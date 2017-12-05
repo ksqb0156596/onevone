@@ -1,10 +1,13 @@
 package com.mk.onevone.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.mk.onevone.entity.User;
 import com.mk.onevone.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,6 +18,14 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
+    @RequestMapping(value = "/getLoginInfo")
+    public Object getLoginInfo(){
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("id",request.getSession().getAttribute("id"));
+        jsonObject.put("username",request.getSession().getAttribute("username"));
+        return jsonObject;
+    }
     @RequestMapping(value = "/checkLogin")
     public String checkLogin(){
         return null;
@@ -24,4 +35,5 @@ public class LoginController {
 
         return userService.getLogin(user);
     }
+    
 }

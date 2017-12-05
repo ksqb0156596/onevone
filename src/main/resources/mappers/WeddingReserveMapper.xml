@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mk.onevone.dao.WeddingReserveDAO">
+  <resultMap id="BaseResultMap" type="com.mk.onevone.entity.WeddingReserve">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="personal_id" jdbcType="INTEGER" property="personalId" />
+    <result column="reserve_date" jdbcType="VARCHAR" property="reserveDate" />
+    <result column="wechat" jdbcType="VARCHAR" property="wechat" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, personal_id, reserve_date, wechat, phone
+  </sql>
+  <select id="findList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from wedding_reserve
+    <where>
+        <if test="personalId != null and personalId != ''">
+            AND personal_id = #{personalId}
+        </if>
+        <if test="reserveDate != null and reserveDate != ''">
+            AND reserve_date LIKE CONCAT(#{reserveDate},'%')
+        </if>
+        <if test="wechat != null and wechat != ''">
+            AND wechat = #{wechat}
+        </if>
+        <if test="phone != null and phone != ''">
+            AND phone = #{phone}
+        </if>
+    </where>  
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from wedding_reserve
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from wedding_reserve
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mk.onevone.entity.WeddingReserve">
+    replace into wedding_reserve (id, personal_id, reserve_date,
+      wechat, phone)
+    values (#{id,jdbcType=INTEGER}, #{personalId,jdbcType=INTEGER}, #{reserveDate,jdbcType=VARCHAR}, 
+      #{wechat,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mk.onevone.entity.WeddingReserve">
+    replace into wedding_reserve
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="personalId != null">
+        personal_id,
+      </if>
+      <if test="reserveDate != null">
+        reserve_date,
+      </if>
+      <if test="wechat != null">
+        wechat,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="personalId != null">
+        #{personalId,jdbcType=INTEGER},
+      </if>
+      <if test="reserveDate != null">
+        #{reserveDate,jdbcType=VARCHAR},
+      </if>
+      <if test="wechat != null">
+        #{wechat,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mk.onevone.entity.WeddingReserve">
+    update wedding_reserve
+    <set>
+      <if test="personalId != null">
+        personal_id = #{personalId,jdbcType=INTEGER},
+      </if>
+      <if test="reserveDate != null">
+        reserve_date = #{reserveDate,jdbcType=VARCHAR},
+      </if>
+      <if test="wechat != null">
+        wechat = #{wechat,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mk.onevone.entity.WeddingReserve">
+    update wedding_reserve
+    set personal_id = #{personalId,jdbcType=INTEGER},
+      reserve_date = #{reserveDate,jdbcType=VARCHAR},
+      wechat = #{wechat,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
