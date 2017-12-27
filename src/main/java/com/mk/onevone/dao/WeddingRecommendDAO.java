@@ -11,6 +11,7 @@ import java.util.List;
 @Mapper
 public interface WeddingRecommendDAO {
     int deleteByPrimaryKey(Integer id);
+    int deleteByPersonId(Integer id);
 
     int insert(WeddingRecommend record);
 

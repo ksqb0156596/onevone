@@ -35,16 +35,20 @@
   <select id="findRecommendByPerson" resultType="com.mk.onevone.entity.WeddingPersonal">
     select wp.id, wp.name, wp.type, wp.group_id, wp.sex, wp.city, wp.in_short, wp.introduce, wp.video_url, wp.photo_url
     from wedding_personal wp
-    where EXISTS (select * from wedding_recommend wr where wr.person_id = wp.id)
+    where EXISTS (select * from wedding_recommend wr where wr.person_id = wp.id AND wp.status = 1)
   </select>
   <select id="findRecommendByGroup" resultMap="BaseResultMap">
     select wp.id, wp.name, wp.type, wp.photo_url
     from wedding_group wp
-    where EXISTS (select * from wedding_recommend wr where wr.group_id = wp.id)
+    where EXISTS (select * from wedding_recommend wr where wr.group_id = wp.id  AND wp.status = 1)
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from wedding_recommend
     where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByPersonId" parameterType="java.lang.Integer">
+    delete from wedding_recommend
+    where person_id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.mk.onevone.entity.WeddingRecommend">
     insert into wedding_recommend (id, person_id, group_id, 

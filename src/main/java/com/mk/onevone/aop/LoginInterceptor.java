@@ -19,7 +19,7 @@ public class LoginInterceptor implements HandlerInterceptor{
             String path = request.getRequestURI();
             if("wechat-onevone".equals(request.getParameter("key"))){
 
-                if(path.contains("/get") || path.contains("/find")){
+                if(path.contains("/get") || path.contains("/find") || path.contains("/reserve")){
                     return true;
                 }
             }else if(path.contains("/login")){

@@ -1,5 +1,6 @@
 package com.mk.onevone.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.mk.onevone.entity.WeddingRecommend;
 
 import java.util.List;
@@ -10,7 +11,9 @@ import java.util.List;
 public interface WeddingRecommendService {
     int save(WeddingRecommend weddingRecommend);
     int delete(int id,int status);
+    int deleteByPersonId(int id);
     List<WeddingRecommend> findList(WeddingRecommend weddingRecommend);
     List findRecommendList(int type);
     WeddingRecommend get(int id);
+    JSONObject findRecommendByPersonal();
 }

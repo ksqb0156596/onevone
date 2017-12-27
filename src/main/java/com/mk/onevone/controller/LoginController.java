@@ -1,6 +1,7 @@
 package com.mk.onevone.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.mk.onevone.dto.ResultDTO;
 import com.mk.onevone.entity.User;
 import com.mk.onevone.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +33,18 @@ public class LoginController {
     }
     @RequestMapping(value = "/login")
     public Object login(User user){
-
         return userService.getLogin(user);
     }
-    
+    @RequestMapping(value = "/getMessageCode")
+    public Object getMessageCode(String phone){
+        if(phone.length() != 11){
+            return new ResultDTO<>(-1);
+        }
+        return userService.getMessageCode(phone);
+    }
+    @RequestMapping(value = "/getMessageLogin")
+    public Object getMessageLogin(String phone, String code){
+
+        return userService.getCodeLogin(phone, code);
+    }
 }

@@ -14,6 +14,8 @@ spring:
     multipart:
       maxFileSize: 1000Mb
       maxRequestSize: 1000Mb
+  aop:
+    auto: true
 #    prefix: /templates/
 #    suffix: .html
 mybatis:
